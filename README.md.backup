@@ -174,5 +174,3 @@ npm install bootstrap@4.1.2
 ``` 
 - Podczas korzystania z właściwości i metod zdefiniowanych w komponencie, w tym także z metody `setState`, konieczne jest posługiwanie się słowem kluczowym this. Pomijanie tego słowa kluczowego jest błędem.
 - Funkcje tworzone przy użyciu składni grubej strzałki nie wymagają stosowania instrukcji return ani zapisywania ciała funkcji wewnątrz nawiasów klamrowych.
-
-### Dodawanie możliwości aplikacji listy zadań
