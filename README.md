@@ -365,3 +365,165 @@ npm install bootstrap@4.1.2
 ```
 
 -  React wymaga właściwości key, by móc powiązać wyświetlane treści z danymi, na podstawie których zostały one wygenerowane, i efektywnie zarządzać zmianami.
+
+### Wprowadzanie dodatkowych komponentów
+-  Komponent podrzędny - komponent, do którego przekazujemy dane
+-  src/TodoBanner.js
+```
+import React, { Component } from 'react';
+  export class TodoBanner extends Component {
+  render = () =>
+  <h4 className="bg-primary text-white text-center p-2">
+    Lista zadań użytkownika {this.props.name}
+ 
+    (Liczba zadań: {this.props.tasks.filter(t => !t.done).length})
+
+  </h4>
+}
+```
+
+- Aby wyświetlić wartość właściwości name, w kodzie komponentu należy użyć wyrażenia `this.props.name`.
+-  src/TodoRow.js
+```
+import React, { Component } from "react";
+
+export class TodoRow extends Component {
+  render = () => (
+    <tr>
+      <td>{this.props.item.action}</td>
+
+      <td>
+        <input
+          type="checkbox"
+          checked={this.props.item.done}
+          onChange={() => this.props.callback(this.props.item)}
+        />
+      </td>
+    </tr>
+  );
+}
+```
+- Właściwości `props` pozwalają przekazywać dane z komponentów nadrzędnych do podrzędnych, a właściwości funkcyjne pozwalają komponentom podrzędnym komunikować się ze swoimi komponentami nadrzędnymi.
+- src/TodoCreator.js
+```
+import React, { Component } from "react";
+
+export class TodoCreator extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = { newItemText: "" };
+  }
+
+  updateNewTextValue = (event) => {
+    this.setState({ newItemText: event.target.value });
+  };
+
+  createNewTodo = () => {
+    this.props.callback(this.state.newItemText);
+
+    this.setState({ newItemText: "" });
+  };
+
+  render = () => (
+    <div className="my-1">
+      <input
+        className="form-control"
+        value={this.state.newItemText}
+        onChange={this.updateNewTextValue}
+      />
+
+      <button className="btn btn-primary mt-1" onClick={this.createNewTodo}>
+        Nowe zadanie
+      </button>
+    </div>
+  );
+}
+
+```
+
+#### Stosowanie komponentów podrzędnych
+-  src/App.js
+
+```
+//import logo from './logo.svg';
+//import './App.css';
+import React, { Component } from "react";
+import { TodoBanner } from "./TodoBanner";
+import { TodoCreator } from "./TodoCreator";
+import { TodoRow } from "./TodoRow";
+
+export default class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      userName: "Adam",
+
+      todoItems: [
+        { action: "Kupić kwiaty", done: false },
+
+        { action: "Wziąć buty", done: false },
+
+        { action: "Zebrać bilety", done: true },
+
+        { action: "Zadzwonić do Jurka", done: false },
+      ],
+
+      //newItemText: ""
+    };
+  }
+
+  updateNewTextValue = (event) => {
+    this.setState({ newItemText: event.target.value });
+  };
+
+  createNewTodo = (task) => {
+    if (!this.state.todoItems.find((item) => item.action === task)) {
+      this.setState({
+        todoItems: [...this.state.todoItems, { action: task, done: false }],
+      });
+    }
+  };
+
+  toggleTodo = (todo) =>
+    this.setState({
+      todoItems: this.state.todoItems.map((item) =>
+        item.action === todo.action ? { ...item, done: !item.done } : item,
+      ),
+    });
+
+  todoTableRows = () =>
+    this.state.todoItems.map((item) => (
+      <TodoRow key={item.action} item={item} callback={this.toggleTodo} />
+    ));
+
+  render = () => (
+    <div>
+      <TodoBanner name={this.state.userName} tasks={this.state.todoItems} />
+
+      <div className="container-fluid">
+        <TodoCreator callback={this.createNewTodo} />
+
+        <table className="table table-striped table-bordered">
+          <thead>
+            <tr>
+              <th>Opis</th>
+              <th>Done</th>
+            </tr>
+          </thead>
+
+          <tbody>{this.todoTableRows()}</tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+      
+```
+- Instrukcje import deklarują zależności z komponentami podrzędnym
+- Atrybuty i wyrażenia definiują właściwości props przekazywane do komponentów.
+
+```
+<TodoBanner name={this.state.userName} tasks={this.state.todoItems} />
+```
