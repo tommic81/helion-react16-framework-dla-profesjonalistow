@@ -800,3 +800,7 @@ export default class App extends Component {
 }
 
 ``` 
+
+## Zrozumieć React
+- [pro-react-16](https://github.com/Apress/pro-react-16)
+- [informacje o poprawkach](https://helion.pl/errata.cgi?id=reac16)
