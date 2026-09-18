@@ -804,3 +804,98 @@ export default class App extends Component {
 ## Zrozumieć React
 - [pro-react-16](https://github.com/Apress/pro-react-16)
 - [informacje o poprawkach](https://helion.pl/errata.cgi?id=reac16)
+
+## Podstawy HTML, JSX i CSS
+### Przygotowania do prac
+```
+npx create-react-app podstawy
+
+cd podstawy
+npm install bootstrap@4.1.2
+```
+
+-  src/index.js
+```
+
+    import React from 'react';
+
+    import ReactDOM from 'react-dom';
+
+    import './index.css';
+
+    import App from './App';
+
+    import * as serviceWorker from './serviceWorker';
+
+    import 'bootstrap/dist/css/bootstrap.css';
+
+    ReactDOM.render(<App />, document.getElementById('root'));
+
+    // If you want your app to work offline and load faster, you can change
+    
+
+
+    // unregister() to register() below. Note this comes with some pitfalls.
+
+    // Learn more about service workers: https://bit.ly/CRA-PWA
+
+    serviceWorker.unregister();    
+```
+
+-  src/index.html
+
+```
+
+    <!DOCTYPE html>
+
+    <html lang="en">
+
+      <head>
+
+        <meta charset="utf-8" />
+
+        <title>Podstawy</title>
+
+      </head>
+
+      <body>
+
+        <h4 class="bg-primary text-white text-center p-2 m-1">
+
+          Statyczny element HTML
+
+        </h4>
+
+        <div id="domParent"></div>
+
+        <div id="root"></div>
+
+      </body>
+
+    </html>
+```
+
+-  src/App.js
+
+```
+
+    import React, { Component } from "react";
+
+    export default class App extends Component {
+
+      render = () =>
+
+        <h4 className="bg-primary text-white text-center p-2 m-1">
+
+          Element komponentu
+
+    </h4>
+
+    }
+```
+- uruchomienie
+
+```
+
+    npm start
+```
